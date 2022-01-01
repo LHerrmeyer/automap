@@ -10,6 +10,9 @@ TIM='-T4'
 TIMEOUT=30
 HOST_TMP=host
 BCAST=1
+EXPL_TIMEOUT=60
+EXPL_STR="--script http-brute --script-args unpwdb.timelimit=$EXPL_TIMEOUT
+	--script telnet-brute --script-args unpwdb.timelimit=$EXPL_TIMEOUT"
 
 # Show intro
 echo "Starting automap..."
@@ -24,6 +27,7 @@ while [ $# -gt 0 ]; do
 		-s)FLAGS="$FLAGS -sV";echo "Version scan";shift 1;;
 		-v)FLAGS="$FLAGS -sV --script=./my_vulners.nse";echo "Vulners scan (run ./get_vulners.sh first)";shift 1;;
 		-d)FLAGS="$FLAGS --script default and safe";echo "Discovery script scan";shift 1;;
+		-e)FLAGS="$FLAGS $EXPL_STR";echo "Password exploitation";shift 1;;
 		*)shift;;
 	esac
 done

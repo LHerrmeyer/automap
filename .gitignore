@@ -8,3 +8,4 @@ __pycache__
 expl.py
 disc.py
 vulners_old.nse
+*.xsl

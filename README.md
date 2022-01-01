@@ -7,9 +7,9 @@ A tool to automate nmap scans and exploitation on the local network.
 - Finding network interface
 - Detecting host OS
 - Gathering from both initial scan, UPnP, and mDNS
+- Testing on android
+- Exploitation (default passwords)
 
 ### Not done
-- Exploitation (default passwords)
-- Command line options documentation
-- Testing on android
-
+- SSH-brute
+- Options documentation
