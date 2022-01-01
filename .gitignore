@@ -5,3 +5,5 @@ my_vulners.nse
 host_list
 host
 __pycache__
+expl.py
+disc.py

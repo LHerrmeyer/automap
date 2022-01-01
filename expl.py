@@ -1,2 +1,0 @@
-class Exploiter():
-    pass
