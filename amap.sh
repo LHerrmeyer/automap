@@ -8,7 +8,7 @@ DEFLINE=a
 FLAGS=' '
 TIM='-T4'
 TIMEOUT=30
-HOST_TMP=$TMP/host
+HOST_TMP=host
 BCAST=1
 
 # Show intro
