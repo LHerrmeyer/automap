@@ -5,25 +5,34 @@ CIDR_REG=$(printf "%s/[0-9]{1,3}" $IP_REG)
 FNAME=nmap_$(date '+%s')
 TMP=/tmp
 DEFLINE=a
-FLAGS=''
+FLAGS=' '
 TIM='-T4'
+TIMEOUT=30
+HOST_TMP=$TMP/host
+BCAST=1
+
+# Show intro
+echo "Starting automap..."
 
 # Parse command line options
-
 while [ $# -gt 0 ]; do
 	key="$1"
 	case $key in
-		-f)FLAGS="$FLAGS -F";shift 1;;
-		-b)BCAST=1;shift 1;;
-		-v)FLAGS="$FLAGS -sV";shift 1;;
+		-f)FLAGS="$FLAGS -F";echo "Fast scan";shift 1;;
+		-b)BCAST=0;echo "Broadcast scan";shift 1;;
+		-s)FLAGS="$FLAGS -sV";echo "Version scan";shift 1;;
+		-v)FLAGS="$FLAGS -sV --script=./my_vulners.nse";echo "Vulners scan (run ./get_vulners.sh first)";shift 1;;
 		*)shift;;
 	esac
 done
+echo " "
 
 # Check for WSL
 if [ nmap.exe ]; then
 	echo 'Detected WSL, using nmap.exe...'
+	echo ' '
 	NM=nmap.exe
+	HOST_TMP=host
 fi
 
 # Find default network interface
@@ -41,13 +50,27 @@ printf 'Found default interface [%s]\n' $IFACE
 # Find default network range
 echo 'Finding default network...'
 IP_RANGE=$(ip -o -f inet addr | grep $IFACE | grep -Eo $CIDR_REG)
-printf 'Found default network [%s]\n' $IP_RANGE
+printf 'Found default network [%s]\n\n' $IP_RANGE
 
 # Start host discovery
+echo 'Starting host discovery...'
+if [ $BCAST -eq 1 ]; then
+	echo "Starting full net scan with timeout of $TIMEOUT sec..."
+	timeout $TIMEOUT $NM -oG $HOST_TMP -sn $TIM $IP_RANGE | grep -Fq "."
+fi
+echo "Starting mDNS scan..."
+$NM -oN $HOST_TMP --append-output --script=broadcast-dns-service-discovery | grep -Fq "."
+echo "Starting broadcast ping scan..."
+$NM -oN $HOST_TMP --append-output --script=broadcast-ping | grep -Fq "."
+
+# Filter host data
+HOST_LIST="${HOST_TMP}_list"
+cat $HOST_TMP | grep "Address=\|IP:\|Status: Up" | grep -Eo $IP_REG | sort -u > $HOST_LIST
+echo "Host discovery done, $(cat $HOST_LIST | wc -l) hosts found."
+echo ""
 
 # Start the scan
-echo 'Starting scan...'
+echo "Starting final scan..."
 set -x
-$NM $FLAGS -oX $FNAME.xml -oN $FNAME.txt $IP_RANGE
+$NM $TIM $FLAGS -iL $HOST_LIST -oX $FNAME.xml -oN $FNAME.txt
 set +x
-echo Output written to $FNAME.xml

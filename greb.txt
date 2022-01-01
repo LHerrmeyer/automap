@@ -1,0 +1,108 @@
+# Nmap 7.31 scan initiated Fri Dec 31 15:35:57 2021 as: nmap.exe --script=broadcast-dns-service-discovery -oN greb.txt
+Pre-scan script results:
+| broadcast-dns-service-discovery: 
+|   224.0.0.251
+|     80/tcp tivo-device
+|       path=/
+|       services=_tivo-mindrpc._tcp,_tivo-remote._tcp
+|       platformName=TiVo Premiere
+|       swversion=21.11.1.v7-846-6-846
+|       platform=tcd/Series5
+|       TSN=846002190226CEF
+|       Address=192.168.1.24
+|     80/tcp http
+|       path=/index.html
+|       swversion=21.11.1.v7-USH-11-A95
+|       platform=tcd/Dexter
+|       TSN=A950DF085C83E36
+|       Address=192.168.1.17
+|     80/tcp http
+|       path=/index.html
+|       swversion=21.11.1.v7-846-6-846
+|       platform=tcd/Series5
+|       TSN=846002190226CEF
+|       Address=192.168.1.24
+|     80/tcp tivo-device
+|       path=/
+|       services=_tivo-mindrpc._tcp,_tivo-remote._tcp
+|       platformName=TiVo Premiere
+|       swversion=21.11.1.v7-USH-11-A95
+|       platform=tcd/Dexter
+|       TSN=A950DF085C83E36
+|       Address=192.168.1.17
+|     443/tcp tivo-videos
+|       protocol=https
+|       path=/TiVoConnect?Command=QueryContainer&Container=%2FNowPlaying
+|       swversion=21.11.1.v7-846-6-846
+|       platform=tcd/Series5
+|       TSN=846002190226CEF
+|       Address=192.168.1.24
+|     443/tcp tivo-videostream
+|       protocol=https
+|       path=/TiVoConnect?Command=QueryContainer&Container=%2FNowPlaying
+|       swversion=21.11.1.v7-846-6-846
+|       platform=tcd/Series5
+|       TSN=846002190226CEF
+|       Address=192.168.1.24
+|     554/tcp arlo-video
+|       deviceid=A0829B7GA1CC5
+|       Address=192.168.1.2
+|     1413/tcp tivo-mindrpc
+|       protocol=tivo-mindrpc
+|       path=/
+|       mindversion=7/42
+|       swversion=21.11.1.v7-846-6-846
+|       platform=tcd/Series5
+|       TSN=846002190226CEF
+|       Address=192.168.1.24
+|     1413/tcp tivo-mindrpc
+|       protocol=tivo-mindrpc
+|       path=/
+|       mindversion=7/42
+|       swversion=21.11.1.v7-USH-11-A95
+|       platform=tcd/Dexter
+|       TSN=A950DF085C83E36
+|       Address=192.168.1.17
+|     7000/tcp airplay
+|       acl=0
+|       deviceid=43:6A:57:FB:AB:1A
+|       features=0x7F8AD0,0x38BCF46
+|       rsf=0x3
+|       fv=p20.10.50.4210
+|       at=0x1
+|       flags=0x244
+|       model=7105X
+|       company=TCL
+|       manufacturer=TCL
+|       serialNumber=3afd0cf2-0bde-53ed-aa5d-5f1ae49d0168
+|       protovers=1.1
+|       srcvers=377.30.02
+|       pi=43:6A:57:FB:AB:1A
+|       psi=00000000-0000-0000-0000-436A57FBAB1A
+|       gid=00000000-0000-0000-0000-436A57FBAB1A
+|       gcgl=0
+|       pk=0b52c58171d8a1c8269c251216a8466d291db585c63406154ee47862ce8af966
+|       Address=192.168.1.4
+|     31339/tcp tivo-remote
+|       protocol=tivo-remote
+|       path=/
+|       swversion=21.11.1.v7-USH-11-A95
+|       platform=tcd/Dexter
+|       TSN=A950DF085C83E36
+|       Address=192.168.1.17
+|     43124/tcp hap
+|       c#=20
+|       ff=2
+|       id=BB:DF:53:43:D2:09
+|       md=VMB4540
+|       pv=1.1
+|       s#=1
+|       sf=1
+|       ci=2
+|       sh=pBOF0w==
+|       Address=192.168.1.2
+|     47443/tcp spotify-connect
+|       CPath=/zc
+|_      Address=192.168.1.4
+WARNING: No targets were specified, so 0 hosts scanned.
+# Nmap done at Fri Dec 31 15:36:05 2021 -- 0 IP addresses (0 hosts up) scanned in 8.33 seconds
