@@ -9,6 +9,7 @@ A tool to automate nmap scans and exploitation on the local network.
 - Gathering from both initial scan, UPnP, and mDNS
 
 ### Not done
-- Exploitation
+- Exploitation (default passwords)
 - Command line options documentation
+- Testing on android
 

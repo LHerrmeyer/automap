@@ -15,17 +15,19 @@ BCAST=1
 echo "Starting automap..."
 
 # Parse command line options
+echo "Options:"
 while [ $# -gt 0 ]; do
 	key="$1"
 	case $key in
 		-f)FLAGS="$FLAGS -F";echo "Fast scan";shift 1;;
-		-b)BCAST=0;echo "Broadcast scan";shift 1;;
+		-b)BCAST=0;echo "Broadcast-only scan";shift 1;;
 		-s)FLAGS="$FLAGS -sV";echo "Version scan";shift 1;;
 		-v)FLAGS="$FLAGS -sV --script=./my_vulners.nse";echo "Vulners scan (run ./get_vulners.sh first)";shift 1;;
+		-d)FLAGS="$FLAGS --script default and safe";echo "Discovery script scan";shift 1;;
 		*)shift;;
 	esac
 done
-echo " "
+echo "--------"
 
 # Check for WSL
 if [ nmap.exe ]; then
