@@ -30,13 +30,13 @@ done
 echo "--------"
 
 # Check for WSL
-if [ nmap.exe ]; then
+if [ -x "$(command -v nmap.exe)" ]; then
 	echo 'Detected WSL, using nmap.exe...'
 	echo ' '
 	NM=nmap.exe
 	HOST_TMP=host
 fi
-
+exit
 # Find default network interface
 echo 'Finding default interface...'
 NLINES=$(ip r | wc -l)
