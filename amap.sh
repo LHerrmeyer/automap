@@ -7,12 +7,14 @@ TMP=/tmp
 DEFLINE=a
 FLAGS=' '
 TIM='-T4'
-TIMEOUT=30
+TIMEOUT=120
 HOST_TMP=host
 BCAST=1
 EXPL_TIMEOUT=60
 EXPL_STR="--script http-brute --script-args unpwdb.timelimit=$EXPL_TIMEOUT
 	--script telnet-brute --script-args unpwdb.timelimit=$EXPL_TIMEOUT"
+GET_SCRIPTS=1
+MY_IP=0
 
 # Show intro
 echo "Starting automap..."
@@ -28,10 +30,18 @@ while [ $# -gt 0 ]; do
 		-v)FLAGS="$FLAGS -sV --script=./my_vulners.nse";echo "Vulners scan (run ./get_vulners.sh first)";shift 1;;
 		-d)FLAGS="$FLAGS --script default and safe";echo "Discovery script scan";shift 1;;
 		-e)FLAGS="$FLAGS $EXPL_STR";echo "Password exploitation";shift 1;;
+		-g)GET_SCRIPT=0;echo "Auto script download";shift 1;;
 		*)shift;;
 	esac
 done
 echo "--------"
+
+# Run get_script.sh if selected
+if [ $GET_SCRIPTS ]; then
+	echo 'Running auto script download...'
+	./get_scripts.sh
+	echo 'Auto script download done'
+fi
 
 # Check for WSL
 if [ -x "$(command -v nmap.exe)" ]; then
@@ -56,7 +66,10 @@ printf 'Found default interface [%s]\n' $IFACE
 # Find default network range
 echo 'Finding default network...'
 IP_RANGE=$(ip -o -f inet addr | grep $IFACE | grep -Eo $CIDR_REG)
-printf 'Found default network [%s]\n\n' $IP_RANGE
+MY_IP=$(echo $IP_RANGE | grep -Eo $IP_REG)
+FLAGS="$FLAGS --exclude $MY_IP"
+printf 'Found default network [%s]\n' $IP_RANGE
+printf 'Found user ip [%s], will exclude from scan\n\n' $MY_IP
 
 # Start host discovery
 echo 'Starting host discovery...'
@@ -80,3 +93,6 @@ echo "Starting final scan..."
 set -x
 $NM $TIM $FLAGS -iL $HOST_LIST -oX $FNAME.xml -oN $FNAME.txt
 set +x
+
+# End and clean up
+printf "Output saved to %s.txt and %s.xml\n" $FNAME $FNAME
