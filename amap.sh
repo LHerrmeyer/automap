@@ -15,6 +15,8 @@ EXPL_STR="--script http-brute --script-args unpwdb.timelimit=$EXPL_TIMEOUT
 	--script telnet-brute --script-args unpwdb.timelimit=$EXPL_TIMEOUT"
 GET_SCRIPTS=1
 MY_IP=0
+BATCH_SIZE=32
+SHOW_HELP=1
 
 # Show intro
 echo "Starting automap..."
@@ -31,10 +33,27 @@ while [ $# -gt 0 ]; do
 		-d)FLAGS="$FLAGS --script default and safe";echo "Discovery script scan";shift 1;;
 		-e)FLAGS="$FLAGS $EXPL_STR";echo "Password exploitation";shift 1;;
 		-g)GET_SCRIPT=0;echo "Auto script download";shift 1;;
+		-h)SHOW_HELP=0;shift 1;;
+		--help)SHOW_HELP=0;shift 1;;
 		*)shift;;
 	esac
 done
 echo "--------"
+
+if [ $SHOW_HELP ]; then
+echo "Usage: $0 [-fbsvdeg] [-h] [--help]
+	-f Fast scan, only scan 100 most common ports
+	-b Broadcast only scan, only use mDNS and broadcast ping to find hosts (do not scan every host in the network)
+	-s Version scan, run nmap option -sV to detect software versions running on ports
+	-v Vulners scan, use the ./my_vulners.nse script to scan for potential vulnerabilities based on versions of software
+	-e Password explotation scan, brute force HTTP and Telnet passwords where servers are found
+	-d Discovery script scan, scan hosts with nmap scripts "default and safe"
+	-g Auto script download, automatically download needed nmap scripts
+	-h/--help Show this help
+"
+
+exit 0
+fi
 
 # Run get_script.sh if selected
 if [ $GET_SCRIPTS ]; then
@@ -75,7 +94,7 @@ printf 'Found user ip [%s], will exclude from scan\n\n' $MY_IP
 echo 'Starting host discovery...'
 if [ $BCAST -eq 1 ]; then
 	echo "Starting full net scan with timeout of $TIMEOUT sec..."
-	timeout $TIMEOUT $NM -oG $HOST_TMP -sn $TIM $IP_RANGE | grep -Fq "."
+	timeout $TIMEOUT $NM -oG $HOST_TMP -sn $TIM --max-hostgroup $BATCH_SIZE $IP_RANGE
 fi
 echo "Starting mDNS scan..."
 $NM -oN $HOST_TMP --append-output --script=broadcast-dns-service-discovery | grep -Fq "."

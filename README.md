@@ -6,7 +6,10 @@ A tool to automate nmap scans and exploitation on the local network.
 * `-f` Fast scan (only scan 100 most common ports instead of 1000, this is nmap -F)
 * `-e` Exploitation, guess passwords for HTTP Basic Auth and Telnet. Timeout can be set in script.
 * `-v` Vulners scan, run vulners script to search for vulnerabilities on open ports
-* 
+* `-g` Auto script download, automatically download needed nmap scripts
+* `-d` Discovery scan, run discovery scripts (category default and safe)
+* `-h`/`--help` Show help menu
+
 
 ## Example outputs
 

@@ -1,0 +1,1 @@
+# Nmap 7.31 scan initiated Tue Jan 18 19:02:11 2022 as: nmap.exe --max-hostgroup 16 -oN bla.txtls 192.168.1.68/24

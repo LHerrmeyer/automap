@@ -1,0 +1,21 @@
+# Nmap 7.31 scan initiated Tue Jan 18 19:24:12 2022 as: nmap.exe -sn --max-hostgroup 2048 -oG tmp.txt 192.168.1.68/24
+Host: 192.168.1.1 ()	Status: Up
+Host: 192.168.1.2 ()	Status: Up
+Host: 192.168.1.3 ()	Status: Up
+Host: 192.168.1.5 ()	Status: Up
+Host: 192.168.1.8 ()	Status: Up
+Host: 192.168.1.9 ()	Status: Up
+Host: 192.168.1.10 ()	Status: Up
+Host: 192.168.1.14 ()	Status: Up
+Host: 192.168.1.17 ()	Status: Up
+Host: 192.168.1.18 ()	Status: Up
+Host: 192.168.1.20 ()	Status: Up
+Host: 192.168.1.22 ()	Status: Up
+Host: 192.168.1.23 ()	Status: Up
+Host: 192.168.1.24 ()	Status: Up
+Host: 192.168.1.25 ()	Status: Up
+Host: 192.168.1.32 ()	Status: Up
+Host: 192.168.1.43 ()	Status: Up
+Host: 192.168.1.76 ()	Status: Up
+Host: 192.168.1.68 ()	Status: Up
+# Nmap done at Tue Jan 18 19:24:23 2022 -- 256 IP addresses (19 hosts up) scanned in 10.98 seconds
