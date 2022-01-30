@@ -9,14 +9,14 @@ FLAGS=' '
 TIM='-T4'
 TIMEOUT=120
 HOST_TMP=host
-BCAST=1
+BCAST=0
 EXPL_TIMEOUT=60
 EXPL_STR="--script http-brute --script-args unpwdb.timelimit=$EXPL_TIMEOUT
 	--script telnet-brute --script-args unpwdb.timelimit=$EXPL_TIMEOUT"
-GET_SCRIPTS=1
+GET_SCRIPTS=0
 MY_IP=0
 BATCH_SIZE=32
-SHOW_HELP=1
+SHOW_HELP=0
 
 # Show intro
 echo "Starting automap..."
@@ -27,20 +27,20 @@ while [ $# -gt 0 ]; do
 	key="$1"
 	case $key in
 		-f)FLAGS="$FLAGS -F";echo "Fast scan";shift 1;;
-		-b)BCAST=0;echo "Broadcast-only scan";shift 1;;
+		-b)BCAST=1;echo "Broadcast-only scan";shift 1;;
 		-s)FLAGS="$FLAGS -sV";echo "Version scan";shift 1;;
 		-v)FLAGS="$FLAGS -sV --script=./my_vulners.nse";echo "Vulners scan (run ./get_vulners.sh first)";shift 1;;
 		-d)FLAGS="$FLAGS --script default and safe";echo "Discovery script scan";shift 1;;
 		-e)FLAGS="$FLAGS $EXPL_STR";echo "Password exploitation";shift 1;;
-		-g)GET_SCRIPT=0;echo "Auto script download";shift 1;;
-		-h)SHOW_HELP=0;shift 1;;
-		--help)SHOW_HELP=0;shift 1;;
+		-g)GET_SCRIPT=1;echo "Auto script download";shift 1;;
+		-h)SHOW_HELP=1;shift 1;;
+		--help)SHOW_HELP=1;shift 1;;
 		*)shift;;
 	esac
 done
 echo "--------"
 
-if [ $SHOW_HELP ]; then
+if [ $SHOW_HELP -eq 1 ]; then
 echo "Usage: $0 [-fbsvdeg] [-h] [--help]
 	-f Fast scan, only scan 100 most common ports
 	-b Broadcast only scan, only use mDNS and broadcast ping to find hosts (do not scan every host in the network)
@@ -56,7 +56,7 @@ exit 0
 fi
 
 # Run get_script.sh if selected
-if [ $GET_SCRIPTS ]; then
+if [ $GET_SCRIPTS -eq 1 ]; then
 	echo 'Running auto script download...'
 	./get_scripts.sh
 	echo 'Auto script download done'
@@ -92,7 +92,7 @@ printf 'Found user ip [%s], will exclude from scan\n\n' $MY_IP
 
 # Start host discovery
 echo 'Starting host discovery...'
-if [ $BCAST -eq 1 ]; then
+if [ $BCAST -eq 0 ]; then
 	echo "Starting full net scan with timeout of $TIMEOUT sec..."
 	timeout $TIMEOUT $NM -oG $HOST_TMP -sn $TIM --max-hostgroup $BATCH_SIZE $IP_RANGE
 fi
